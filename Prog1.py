@@ -21,17 +21,38 @@
 """
 import re
 
+feedback = []
 def check_password_strength(password):
    
         strength = re.compile(r"^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$&])[A-Za-z\d!@#$&]{8,}$")
         if re.search(strength, password):
             return True
         else:
+            if len(password)<8:
+                 feedback.append("Password length is less than 8 characters")
+            if not re.findall(r"\d",password):
+                 feedback.append("Digit is missing")
+            if not re.findall(r"[a-z]",password):
+                 feedback.append("Lower case letter is missing")
+            if not re.findall(r"[A-Z]",password):
+                 feedback.append("Upper case letter is missing")
+            if not re.findall(r"[!@#$&]",password):
+                 feedback.append("Special character is missing eg !, @, #, $, &")
             return False
         
-password = input("Enter your password : ")
+while True:
+        
+    password = input("Enter your password : ")
 
-if check_password_strength(password):
-    print("password strength is good!")
-else:
-    print("password strength is bad!")
+    if check_password_strength(password):
+        print("Password strength is good!")
+        break
+    else:
+        print("Password strength is bad! \n")
+        print("These are feedbacks! Please change your password accordingly")
+        i=1
+        for f in feedback:
+            print(i, ". ", f, "\n")
+            i = i+1
+
+    
